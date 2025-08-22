@@ -1,0 +1,7 @@
+- [ ] single page download
+- [ ] single file with different output name
+- [ ] choosing the saving directory
+- [x] setting a rate-limit
+- [ ] background mode
+- [x] async download
+- [x] website mirroring
