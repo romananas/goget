@@ -14,20 +14,6 @@ import (
 )
 
 func startup() error {
-	// var null *os.File
-	// var err error
-	// if runtime.GOOS == "windows" {
-	// 	null, err = os.OpenFile("NUL", os.O_WRONLY, 0644)
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// } else {
-	// 	null, err = os.OpenFile("/dev/null", os.O_WRONLY, 0644)
-	// 	if err != nil {
-	// 		return err
-	// 	}
-	// }
-	// os.Stderr = null
 	fmt.Printf("start at %s\n", time.Now().Format("2006-01-02 15:04:05"))
 	return nil
 }
