@@ -40,7 +40,7 @@ func (self *scraps) Add(url url.URL) {
 		file = "index.html"
 	}
 	if self.Get(url) == nil {
-		self.scrap = append(self.scrap, &scrap{url: url, state: WAITING, file: file, dir: dirs})
+		self.scrap = append(self.scrap, &scrap{url: url, state: PENDING, file: file, dir: dirs})
 	}
 }
 
@@ -87,7 +87,7 @@ func (self *scraps) Download() ([]download.Download, error) {
 	statuesMap := make(map[*scrap]download.Download)
 
 	for _, x := range self.scrap {
-		if x.state == WAITING {
+		if x.state == PENDING {
 			Download, err := x.download()
 			if err != nil {
 				if err == download.STATUS_ERROR {

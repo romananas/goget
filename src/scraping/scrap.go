@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	WAITING = iota
+	PENDING = iota
 	DOWNLOADING
 	DONE
 	PARSED
