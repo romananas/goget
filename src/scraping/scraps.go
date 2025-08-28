@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+// scraps represents a collection of scrap pointers.
+// It is used to group multiple scrap instances together.
 type scraps struct {
 	scrap []*scrap
 }
@@ -44,6 +46,9 @@ func (self *scraps) Add(url url.URL) {
 	}
 }
 
+// IsDone checks whether all scrap items in the scraps collection have reached a terminal state.
+// It returns true if every scrap's state is either DONE or PARSED, indicating that processing is complete.
+// Otherwise, it returns false.
 func (self *scraps) IsDone() bool {
 	for _, x := range self.scrap {
 		if x.state != DONE && x.state != PARSED {
@@ -53,6 +58,9 @@ func (self *scraps) IsDone() bool {
 	return true
 }
 
+// IsFullDone checks whether all elements in the scraps collection have reached a terminal state.
+// It returns true if every scrap's state is either PARSED or ERROR, indicating that processing is complete for all items.
+// Otherwise, it returns false if at least one scrap is still in progress.
 func (self *scraps) IsFullDone() bool {
 	for _, x := range self.scrap {
 		if x.state != PARSED && x.state != ERROR {
@@ -72,6 +80,14 @@ func (self *scraps) GetUnparsed() []*scrap {
 	return unparsed
 }
 
+// Count returns the number of scraps in the receiver with the specified state.
+// It iterates over all scraps and increments the count for each scrap whose state matches the provided state value.
+//
+// Parameters:
+//   - state: the state value to match against each scrap's state.
+//
+// Returns:
+//   - int: the number of scraps with the specified state.
 func (self *scraps) Count(state int) int {
 	count := 0
 	for _, x := range self.scrap {

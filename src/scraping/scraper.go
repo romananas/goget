@@ -7,6 +7,17 @@ import (
 	"strings"
 )
 
+// IntoAbsolute resolves a relative URL against a base (current) URL and returns the absolute URL as a string pointer.
+// If the relative URL is already absolute, it returns the original relative URL.
+// Returns an error if either URL cannot be parsed.
+//
+// Parameters:
+//   - current: The base URL as a string.
+//   - relatif: The relative or absolute URL as a string.
+//
+// Returns:
+//   - *string: Pointer to the resulting absolute URL string.
+//   - error:   Error if URL parsing fails.
 func IntoAbsolute(current string, relatif string) (*string, error) {
 	relatif_url, err := u.Parse(relatif)
 	if err != nil {
@@ -24,6 +35,9 @@ func IntoAbsolute(current string, relatif string) (*string, error) {
 	return &absoluteStr, nil
 }
 
+// ValidatePath checks if the provided path is either relative or belongs to the same domain as the current URL.
+// If so, it converts the path to an absolute URL using IntoAbsolute. Otherwise, it returns the original path.
+// Returns a pointer to the validated path string and an error if URL parsing fails.
 func ValidatePath(current string, path string) (*string, error) {
 	currentUrl, err := u.Parse(current)
 	if err != nil {
@@ -42,6 +56,11 @@ func ValidatePath(current string, path string) (*string, error) {
 	return &path, nil
 }
 
+// Scrap crawls and downloads content from the provided list of URLs.
+// It manages the download progress, handles URL normalization, and ensures that only URLs
+// belonging to the original hosts are followed. The function continues scraping until all
+// reachable content is processed or an error occurs. Returns an error if any download or parsing
+// operation fails.
 func Scrap(urls []u.URL) error {
 	var scrapper scraps = Init()
 	var manager progress.Manager[uint] = progress.New[uint](50, "=>-")
