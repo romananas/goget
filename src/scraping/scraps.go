@@ -70,6 +70,8 @@ func (self *scraps) IsFullDone() bool {
 	return true
 }
 
+// GetUnparsed returns a slice of pointers to scrap objects whose state is DONE.
+// It iterates over all scraps in the receiver and collects those that have been marked as DONE.
 func (self *scraps) GetUnparsed() []*scrap {
 	var unparsed []*scrap = make([]*scrap, 0)
 	for _, x := range self.scrap {
