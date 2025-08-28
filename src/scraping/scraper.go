@@ -42,59 +42,7 @@ func ValidatePath(current string, path string) (*string, error) {
 	return &path, nil
 }
 
-func Scrap(url u.URL) error {
-
-	var scrapper scraps = Init()
-	var manager progress.Manager[uint] = progress.New[uint](50, "=>-")
-	scrapper.Add(url)
-
-	for !scrapper.IsFullDone() {
-		statuses, err := scrapper.Download()
-		if err != nil {
-			return err
-		}
-		for _, status := range statuses {
-			p := status.Url.Path
-			if strings.HasSuffix(p, "/") {
-				p += "index.html"
-			}
-			p = strings.TrimPrefix(p, "/")
-			if status.StatusCode == 200 {
-				manager.Add(status.Downloaded, status.Length, p)
-			} else {
-				scrapper.Delete(status.Url)
-			}
-		}
-
-		urls, err := scrapper.parse()
-		if err != nil {
-			return err
-		}
-
-		if len(urls) == 0 {
-			continue
-		}
-
-		for _, new := range urls {
-			if len(new) == 0 {
-				continue
-			}
-
-			new, err := url.Parse(new)
-			if err != nil {
-				return err
-			}
-			if new.Host == url.Host {
-				scrapper.Add(*new)
-			}
-		}
-
-	}
-
-	return nil
-}
-
-func ScrapMulti(urls []u.URL) error {
+func Scrap(urls []u.URL) error {
 	var scrapper scraps = Init()
 	var manager progress.Manager[uint] = progress.New[uint](50, "=>-")
 

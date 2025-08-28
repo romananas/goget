@@ -125,7 +125,7 @@ func main() {
 	startup()
 	switch {
 	case opts.Mirror == true:
-		if err := scraping.ScrapMulti(urls); err != nil {
+		if err := scraping.Scrap(urls); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
